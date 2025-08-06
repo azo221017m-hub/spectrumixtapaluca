@@ -30,6 +30,16 @@
       font-size: 1.4rem;
       color: #00ff00;
     }
+    .foto-jugador {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #00ff00;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
     .info {
       margin: 0.5rem 0;
     }
@@ -50,7 +60,7 @@
     }
     .btn-editar {
       position: absolute;
-      top: 10px;
+      bottom: 10px;
       right: 10px;
       background: #333;
       color: #00ff00;
@@ -71,7 +81,7 @@
   </main>
 
   <script>
-    // Datos simulados, luego se conectarán a SQLite desde el backend
+    // Datos simulados con propiedad "foto"
     const jugadores = [
       {
         nickname: "ShadowWolf",
@@ -79,7 +89,8 @@
         habilidades: "Francotirador, Silencioso",
         asistencias: 12,
         medallas: ["elite", "sigilo"],
-        rango: "Teniente"
+        rango: "Teniente",
+        foto: "img/jugadores/shadowwolf.jpg"
       },
       {
         nickname: "Ghost",
@@ -87,7 +98,8 @@
         habilidades: "CQB, Flanqueador",
         asistencias: 8,
         medallas: ["valor", "precision"],
-        rango: "Sargento"
+        rango: "Sargento",
+        foto: "img/jugadores/ghost.jpg"
       }
     ];
 
@@ -98,15 +110,14 @@
       ficha.classList.add('ficha');
 
       ficha.innerHTML = `
+        <img src="${j.foto}" alt="Foto de ${j.nickname}" class="foto-jugador">
         <h3>${j.nickname} (${j.rango})</h3>
         <p class="info"><strong>Réplica:</strong> ${j.replica}</p>
         <p class="info"><strong>Habilidades:</strong> ${j.habilidades}</p>
         <p class="contador">🎯 Asistencias: ${j.asistencias}</p>
-
         <div class="medallas">
           ${j.medallas.map(m => `<img src="img/medallas/${m}.png" alt="${m}" class="parche">`).join('')}
         </div>
-
         <button class="btn-editar">Editar</button>
       `;
       contenedor.appendChild(ficha);
