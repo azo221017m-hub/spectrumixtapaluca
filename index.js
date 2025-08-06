@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const app = require('./app'); // Aquí importas el objeto app directamente
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 4000;
 
 const options = {
   key: fs.readFileSync(path.join(__dirname, 'certs', 'privkey.key')),
