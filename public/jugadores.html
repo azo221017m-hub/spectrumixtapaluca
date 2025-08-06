@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Fichas de Jugadores | Spectrum Ixtapaluca</title>
+  <link rel="stylesheet" href="css/estilos.css">
+  <style>
+    body {
+      background: url('img/bg-camuflaje.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Arial Black', sans-serif;
+      color: #fff;
+    }
+    .contenedor {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+    .ficha {
+      background: rgba(0,0,0,0.7);
+      border: 2px solid #00ff00;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 0 15px #00ff00;
+      position: relative;
+    }
+    .ficha h3 {
+      margin-top: 0;
+      font-size: 1.4rem;
+      color: #00ff00;
+    }
+    .info {
+      margin: 0.5rem 0;
+    }
+    .contador {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #FFD700;
+    }
+    .rangos, .medallas {
+      margin-top: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+    }
+    .parche {
+      width: 32px;
+      height: 32px;
+    }
+    .btn-editar {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #333;
+      color: #00ff00;
+      border: 1px solid #00ff00;
+      padding: 5px;
+      cursor: pointer;
+      display: none; /* Mostrar sólo si es admin */
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 style="text-align:center;">Fichas Tácticas - Spectrum Ixtapaluca AG-S</h1>
+  </header>
+
+  <main class="contenedor" id="listaJugadores">
+    <!-- Las fichas se insertan dinámicamente -->
+  </main>
+
+  <script>
+    // Datos simulados, luego se conectarán a SQLite desde el backend
+    const jugadores = [
+      {
+        nickname: "ShadowWolf",
+        replica: "M4A1",
+        habilidades: "Francotirador, Silencioso",
+        asistencias: 12,
+        medallas: ["elite", "sigilo"],
+        rango: "Teniente"
+      },
+      {
+        nickname: "Ghost",
+        replica: "MP5K",
+        habilidades: "CQB, Flanqueador",
+        asistencias: 8,
+        medallas: ["valor", "precision"],
+        rango: "Sargento"
+      }
+    ];
+
+    const contenedor = document.getElementById('listaJugadores');
+
+    jugadores.forEach(j => {
+      const ficha = document.createElement('div');
+      ficha.classList.add('ficha');
+
+      ficha.innerHTML = `
+        <h3>${j.nickname} (${j.rango})</h3>
+        <p class="info"><strong>Réplica:</strong> ${j.replica}</p>
+        <p class="info"><strong>Habilidades:</strong> ${j.habilidades}</p>
+        <p class="contador">🎯 Asistencias: ${j.asistencias}</p>
+
+        <div class="medallas">
+          ${j.medallas.map(m => `<img src="img/medallas/${m}.png" alt="${m}" class="parche">`).join('')}
+        </div>
+
+        <button class="btn-editar">Editar</button>
+      `;
+      contenedor.appendChild(ficha);
+    });
+  </script>
+</body>
+</html>
