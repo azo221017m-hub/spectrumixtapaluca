@@ -1,18 +1,19 @@
-// Módulos requeridos
+// app.js
 const express = require('express');
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
+
 const app = express();
 const port = 3000;
 
-// Middleware para parsear JSON
+// Middleware para parsear JSON en solicitudes POST
 app.use(express.json());
 
-// Servir archivos estáticos (html, js, css)
+// Servir archivos estáticos (html, js, css) desde carpeta 'public'
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Conexión a la base de datos
-const db = new sqlite3.Database('./db/database.sqlite', (err) => {
+// Conexión a la base de datos SQLite
+const db = new sqlite3.Database(path.join(__dirname, 'db', 'database.sqlite'), (err) => {
   if (err) {
     console.error('❌ Error al conectar con SQLite:', err.message);
   } else {
@@ -20,7 +21,7 @@ const db = new sqlite3.Database('./db/database.sqlite', (err) => {
   }
 });
 
-// Crear tabla si no existe
+// Crear tabla 'registros' si no existe
 db.run(`
   CREATE TABLE IF NOT EXISTS registros (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,7 +32,7 @@ db.run(`
   )
 `);
 
-// Ruta POST para recibir registro
+// Ruta POST para recibir datos del formulario y guardar en la base de datos
 app.post('/registro', (req, res) => {
   const { nickname, correo, replica, habilidades } = req.body;
 
@@ -42,7 +43,7 @@ app.post('/registro', (req, res) => {
 
   db.run(query, [nickname, correo, replica, habilidades], function(err) {
     if (err) {
-      console.error('❌ Error al guardar:', err.message);
+      console.error('❌ Error al insertar registro:', err.message);
       return res.status(500).json({ mensaje: 'Error al registrar' });
     }
 
@@ -55,49 +56,3 @@ app.post('/registro', (req, res) => {
 app.listen(port, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${port}`);
 });
-
-// === RUTAS API ===
-
-// Obtener jugadores
-app.get('/api/jugadores', (req, res) => {
-  db.all('SELECT * FROM jugadores', (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json(rows);
-  });
-});
-
-// Registrar nuevo jugador
-app.post('/api/jugadores', (req, res) => {
-  const { nickname, replica, habilidades } = req.body;
-  db.run(
-    'INSERT INTO jugadores (nickname, replica, habilidades) VALUES (?, ?, ?)',
-    [nickname, replica, habilidades],
-    function (err) {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json({ id: this.lastID });
-    }
-  );
-});
-
-
-// Obtener todos los usuarios (opcional, para pruebas)
-app.get('/api/usuarios', (req, res) => {
-  db.all('SELECT * FROM usuarios', (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json(rows);
-  });
-});
-
-// Certificados SSL para servidor HTTPS
-const certOptions = {
-  key: fs.readFileSync(path.join(__dirname, 'certs', 'privkey.key')),
-  cert: fs.readFileSync(path.join(__dirname, 'certs', 'certificado.crt'))
-};
-
-
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-module.exports = app;
