@@ -10,8 +10,6 @@ const https = require('https');
 
 // Instancia de la app
 const app = express();
-const PORT = process.env.PORT
-
 
 // Middlewares
 app.use(cors());
