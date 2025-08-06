@@ -1,51 +1,59 @@
 // Módulos requeridos
-
 const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
-const fs = require('fs');
-const https = require('https');
-
-// Instancia de la app
+const sqlite3 = require('sqlite3').verbose();
 const app = express();
+const port = 3000;
 
-// Middlewares
-app.use(cors());
-app.use(bodyParser.json());
+// Middleware para parsear JSON
+app.use(express.json());
+
+// Servir archivos estáticos (html, js, css)
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-// Conectar a la base de datos SQLite
-const dbPath = path.join(__dirname, 'db', 'database.sqlite');
-const db = new sqlite3.Database(dbPath, (err) => {
-  if (err) console.error('Error al conectar con la base de datos:', err.message);
-  else console.log('📦 Conectado a la base de datos SQLite');
+// Conexión a la base de datos
+const db = new sqlite3.Database('./db/database.sqlite', (err) => {
+  if (err) {
+    console.error('❌ Error al conectar con SQLite:', err.message);
+  } else {
+    console.log('✅ Conectado a SQLite');
+  }
 });
 
-// Crear tablas si no existen
-db.serialize(() => {
-  db.run(`
-    CREATE TABLE IF NOT EXISTS jugadores (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nickname TEXT NOT NULL,
-      replica TEXT NOT NULL,
-      habilidades TEXT,
-      asistencias INTEGER DEFAULT 0,
-      medallas TEXT
-    )
-  `);
+// Crear tabla si no existe
+db.run(`
+  CREATE TABLE IF NOT EXISTS registros (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nickname TEXT NOT NULL,
+    correo TEXT NOT NULL,
+    replica TEXT,
+    habilidades TEXT
+  )
+`);
 
-  db.run(`
-    CREATE TABLE IF NOT EXISTS usuarios (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nombre TEXT NOT NULL,
-      correo TEXT NOT NULL UNIQUE,
-      password TEXT NOT NULL,
-      creado_en DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
+// Ruta POST para recibir registro
+app.post('/registro', (req, res) => {
+  const { nickname, correo, replica, habilidades } = req.body;
+
+  const query = `
+    INSERT INTO registros (nickname, correo, replica, habilidades)
+    VALUES (?, ?, ?, ?)
+  `;
+
+  db.run(query, [nickname, correo, replica, habilidades], function(err) {
+    if (err) {
+      console.error('❌ Error al guardar:', err.message);
+      return res.status(500).json({ mensaje: 'Error al registrar' });
+    }
+
+    console.log(`✅ Registro insertado con ID: ${this.lastID}`);
+    res.status(200).json({ mensaje: 'Registro exitoso' });
+  });
+});
+
+// Iniciar servidor
+app.listen(port, () => {
+  console.log(`🚀 Servidor corriendo en http://localhost:${port}`);
 });
 
 // === RUTAS API ===
@@ -71,18 +79,6 @@ app.post('/api/jugadores', (req, res) => {
   );
 });
 
-// Registrar nuevo usuario
-app.post('/api/registro', (req, res) => {
-  const { nombre, correo, password } = req.body;
-  db.run(
-    'INSERT INTO usuarios (nombre, correo, password) VALUES (?, ?, ?)',
-    [nombre, correo, password],
-    function (err) {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json({ id: this.lastID });
-    }
-  );
-});
 
 // Obtener todos los usuarios (opcional, para pruebas)
 app.get('/api/usuarios', (req, res) => {
