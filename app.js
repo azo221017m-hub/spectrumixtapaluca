@@ -10,7 +10,8 @@ const port = 3000;
 app.use(express.json());
 
 // Servir archivos estáticos (html, js, css) desde carpeta 'public'
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
+
 
 // Conexión a la base de datos SQLite
 const db = new sqlite3.Database(path.join(__dirname, 'db', 'database.sqlite'), (err) => {
