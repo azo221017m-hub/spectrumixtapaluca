@@ -10,6 +10,6 @@ const options = {
   cert: fs.readFileSync(path.join(__dirname, 'certs', 'certificado.crt')),
 };
 
-https.createServer(options, app).listen(PORT, () => {
-  console.log(`Servidor HTTPS corriendo en https://spectrumixtapaluca.local:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en puerto ${PORT}`);
 });
