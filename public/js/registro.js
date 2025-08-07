@@ -10,15 +10,25 @@ document.getElementById('formRegistro').addEventListener('submit', async (e) => 
   };
 
   try {
-    const respuesta = await fetch('https://spectrumixtapaluca.onrender.com/registro', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(datos),
-    });
+    const respuesta = await fetch('/registro', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(datos),
+})
+  .then(async (response) => {
+    if (!response.ok) {
+      // Intentar leer el texto para diagnosticar
+      const text = await response.text();
+      throw new Error(`Error HTTP ${response.status}: ${text}`);
+    }
+    return response.json();
+  })
+  .then((data) => {
+    console.log('Respuesta del servidor:', data);
+  })
+  .catch((error) => {
+    console.error('Error en fetch:', error);
+  });
 
-    const resultado = await respuesta.json();
-    alert(resultado.mensaje);
-  } catch (error) {
-    console.error('Error:', error);
-  }
-});
+
+
