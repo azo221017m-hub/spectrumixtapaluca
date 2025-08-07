@@ -1,13 +1,19 @@
-const express = require('express');
-const app = express();
+// index.js
+const https = require('https');
+const fs = require('fs');
 const path = require('path');
-const registroRoutes = require('./routes/registro');
+const app = require('./app');
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../frontend')));
-app.use('/', registroRoutes);
+// Cargar certificados
+const options = {
+  key: fs.readFileSync(path.join(__dirname, 'certs', 'archivo.key')),
+  cert: fs.readFileSync(path.join(__dirname, 'certs', 'archivo.crt'))
+};
 
-app.listen(3000, () => {
-  console.log('Servidor en http://localhost:3000');
+// Puerto seguro
+const PORT = 4000;
+
+// Crear servidor HTTPS
+https.createServer(options, app).listen(PORT, () => {
+  console.log(`🔒 Servidor HTTPS corriendo en https://localhost:${PORT}`);
 });
