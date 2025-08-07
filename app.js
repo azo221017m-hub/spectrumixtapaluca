@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Rutas estáticas
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/js', express.static(path.join(__dirname, 'js')));
+app.use('/js', express.static(path.join(__dirname, 'public/js')));
 app.use('/css', express.static(path.join(__dirname, 'public/css')));
 app.use('/img', express.static(path.join(__dirname, 'public/img')));
 
