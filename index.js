@@ -22,8 +22,6 @@ app.listen(PORT, () => {
 });
 
 
-// Puerto seguro
-const PORT = process.env.PORT || 4000;
 
 // Crear servidor HTTPS
 https.createServer(options, app).listen(PORT, () => {
