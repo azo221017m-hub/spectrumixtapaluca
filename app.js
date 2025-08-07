@@ -12,7 +12,7 @@ app.use(express.static('public'));
 
 
 // Conexión a la base de datos SQLite
-const db = new sqlite3.Database(path.join(__dirname, 'db', 'database.sqlite'), (err) => {
+const db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'), (err) => {
   if (err) {
     console.error('❌ Error al conectar con SQLite:', err.message);
   } else {
@@ -30,8 +30,6 @@ db.run(`
     habilidades TEXT
   )
 `);
-
-app.use('/registro', registroRouter);
 
 // Ruta POST para recibir datos del formulario y guardar en la base de datos
 app.post('/registro', (req, res) => {
