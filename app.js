@@ -42,12 +42,10 @@ app.post('/registro', (req, res) => {
 
   db.run(query, [nickname, correo, replica, habilidades], function(err) {
     if (err) {
-      console.error('❌ Error al insertar registro:', err.message);
+      console.error('Error al insertar:', err);
       return res.status(500).json({ mensaje: 'Error al registrar' });
     }
-
-    console.log(`✅ Registro insertado con ID: ${this.lastID}`);
-    res.status(200).json({ mensaje: 'Registro exitoso' });
+    res.status(200).json({ mensaje: 'Registro exitoso', id: this.lastID });
   });
 });
 
