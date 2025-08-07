@@ -1,16 +1,15 @@
-document.getElementById('formRegistro').addEventListener('submit', async (e) => {
+document.getElementById('formRegistro').addEventListener('submit', async function (e) {
   e.preventDefault();
 
-  // Capturando datos del formulario
   const datos = {
-    nickname: document.getElementById('nickname').value.trim(),
-    correo: document.getElementById('correo').value.trim(),
-    replica: document.getElementById('replica').value.trim(),
-    habilidades: document.getElementById('habilidades').value.trim(),
+    nickname: document.getElementById('nickname').value,
+    correo: document.getElementById('correo').value,
+    replica: document.getElementById('replica').value,
+    habilidades: document.getElementById('habilidades').value
   };
 
   try {
-    const response = await fetch('/registro', {
+    const respuesta = await fetch('https://spectrumixtapaluca.onrender.com/registro', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -18,15 +17,14 @@ document.getElementById('formRegistro').addEventListener('submit', async (e) => 
       body: JSON.stringify(datos)
     });
 
-    if (response.ok) {
-      alert('✅ Registro exitoso');
-      document.getElementById('formRegistro').reset(); // Limpia el formulario
+    if (respuesta.ok) {
+      const resultado = await respuesta.json();
+      alert('Registro exitoso: ' + resultado.mensaje);
     } else {
-      const mensaje = await response.json();
-      alert('❌ Error al registrar: ' + (mensaje.mensaje || 'Error desconocido'));
+      alert('Error en el registro');
     }
   } catch (error) {
     console.error('Error al enviar datos:', error);
-    alert('❌ Ocurrió un error de conexión con el servidor.');
   }
 });
+

@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 
+const registroRouter = require('./js/registro'); // o similar
 const app = express();
 const port = 3000;
 
@@ -32,6 +33,8 @@ db.run(`
     habilidades TEXT
   )
 `);
+
+app.use('/registro', registroRouter);
 
 // Ruta POST para recibir datos del formulario y guardar en la base de datos
 app.post('/registro', (req, res) => {
