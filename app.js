@@ -3,12 +3,9 @@ const express = require('express');
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 
-const registroRouter = require('./js/registro'); // o similar
 const app = express();
 const port = 3000;
 
-// Middleware para parsear JSON en solicitudes POST
-app.use(express.json());
 
 // Servir archivos estáticos (html, js, css) desde carpeta 'public'
 app.use(express.static('public'));
