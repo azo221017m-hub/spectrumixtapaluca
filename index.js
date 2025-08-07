@@ -13,8 +13,8 @@ const options = {
 
 const express = require('express');
 
-// Usa el puerto proporcionado por el entorno, o 4000 por defecto
-const PORT = process.env.PORT || 4000;
+// Usa el puerto proporcionado por el entorno, o 3000 por defecto
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
