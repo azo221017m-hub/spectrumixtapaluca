@@ -7,7 +7,7 @@ const app = require('./app');
 // Cargar certificados
 const options = {
   key: fs.readFileSync(path.join(__dirname, 'certs', 'privkey.key')),
-  cert: fs.readFileSync(path.join(__dirname, 'certs', certificado.crt'))
+  cert: fs.readFileSync(path.join(__dirname, 'certs', 'certificado.crt'))
 };
 
 // Puerto seguro
