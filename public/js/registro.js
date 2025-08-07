@@ -1,4 +1,4 @@
-document.getElementById('formulario').addEventListener('submit', async function (e) {
+document.getElementById('formRegistro').addEventListener('submit', async function (e) {
   e.preventDefault();
 
   const datos = {
