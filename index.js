@@ -6,12 +6,12 @@ const app = require('./app');
 
 // Cargar certificados
 const options = {
-  key: fs.readFileSync(path.join(__dirname, 'certs', 'archivo.key')),
-  cert: fs.readFileSync(path.join(__dirname, 'certs', 'archivo.crt'))
+  key: fs.readFileSync(path.join(__dirname, 'certs', 'privkey.key')),
+  cert: fs.readFileSync(path.join(__dirname, 'certs', certificado.crt'))
 };
 
 // Puerto seguro
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 // Crear servidor HTTPS
 https.createServer(options, app).listen(PORT, () => {

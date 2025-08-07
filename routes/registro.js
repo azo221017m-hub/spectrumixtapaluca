@@ -7,7 +7,7 @@ router.post('/', (req, res) => {
   const db = req.app.get('db');
   const { nickname, correo, replica, habilidades } = req.body;
 
-  const sql = `INSERT INTO jugadores (nickname, correo, replica, habilidades) VALUES (?, ?, ?, ?)`;
+  const sql = `INSERT INTO registro (nickname, correo, replica, habilidades) VALUES (?, ?, ?, ?)`;
   db.run(sql, [nickname, correo, replica, habilidades], function (err) {
     if (err) {
       console.error('❌ Error al insertar en la base de datos:', err.message);

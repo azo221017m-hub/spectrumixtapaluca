@@ -1,4 +1,3 @@
-// app.js
 
 // app.js
 const express = require('express');
