@@ -1,6 +1,18 @@
 document.getElementById('formRegistro').addEventListener('submit', async (e) => {
   e.preventDefault();
 
+  const express = require('express');
+const router = express.Router();
+
+router.post('/', (req, res) => {
+  const datos = req.body;
+  console.log("Datos recibidos:", datos);
+  // Aquí insertar en SQLite o hacer lo necesario
+  res.status(200).json({ mensaje: 'Registro recibido' });
+});
+
+module.exports = router;
+
   // Capturando datos del formulario
   const datos = {
     nickname: document.getElementById('nickname').value.trim(),
