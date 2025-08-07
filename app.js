@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const registroRouter = require('./routes/registro');
-
+const sqlite3 = require('sqlite3').verbose();
 const app = express();
 
 app.use(express.json());
@@ -18,6 +18,8 @@ app.get('/', (req, res) => {
 });
 
 module.exports = app;
+
+
 
 
 const db = new sqlite3.Database(dbPath, (err) => {
