@@ -1,4 +1,3 @@
-
 document.getElementById('formRegistro').addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -11,24 +10,20 @@ document.getElementById('formRegistro').addEventListener('submit', async (e) => 
 
   try {
     const respuesta = await fetch('/registro', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(datos),
-})
-  .then(async (response) => {
-    if (!response.ok) {
-      // Intentar leer el texto para diagnosticar
-      const text = await response.text();
-      throw new Error(`Error HTTP ${response.status}: ${text}`);
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(datos),
+    });
+
+    if (!respuesta.ok) {
+      const text = await respuesta.text();
+      throw new Error(`Error HTTP ${respuesta.status}: ${text}`);
     }
-    return response.json();
-  })
-  .then((data) => {
+
+    const data = await respuesta.json();
     console.log('Respuesta del servidor:', data);
-  })
-  .catch((error) => {
+
+  } catch (error) {
     console.error('Error en fetch:', error);
-  });
-
-
-
+  }
+});
