@@ -12,7 +12,6 @@ const options = {
 
 
 const express = require('express');
-const app = express();
 
 // Usa el puerto proporcionado por el entorno, o 4000 por defecto
 const PORT = process.env.PORT || 4000;
