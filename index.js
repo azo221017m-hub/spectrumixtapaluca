@@ -10,6 +10,18 @@ const options = {
   cert: fs.readFileSync(path.join(__dirname, 'certs', 'certificado.crt'))
 };
 
+
+const express = require('express');
+const app = express();
+
+// Usa el puerto proporcionado por el entorno, o 4000 por defecto
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, () => {
+  console.log(`Servidor escuchando en http://localhost:${PORT}`);
+});
+
+
 // Puerto seguro
 const PORT = process.env.PORT || 4000;
 
