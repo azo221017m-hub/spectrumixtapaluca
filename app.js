@@ -1,21 +1,20 @@
-// app.js
 const express = require('express');
 const path = require('path');
+const registroRouter = require('./routes/registro');
+
 const app = express();
 
-const registroRoute = require('./routes/registro');
-app.use('/', registroRoute); // O usa '/api' si lo quieres bajo /api/registro
-
-
-
-// Middleware para parsear formularios JSON y urlencoded
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Servir archivos estáticos desde /public
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Ejemplo de ruta de prueba
-app.use('/', registroRouter);
+// Aquí se monta la ruta para /registro
+app.use('/registro', registroRouter);
+
+// Ruta principal
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 module.exports = app;
