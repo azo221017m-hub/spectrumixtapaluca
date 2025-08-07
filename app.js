@@ -18,3 +18,14 @@ app.get('/', (req, res) => {
 });
 
 module.exports = app;
+
+
+const db = new sqlite3.Database(dbPath, (err) => {
+  if (err) {
+    console.error('❌ Error al conectar con la base de datos:', err.message);
+  } else {
+    console.log('📦 Base de datos conectada:', dbPath);
+  }
+});
+
+app.set('db', db); // MUY IMPORTANTE para que esté disponible en req.app.get('db')
