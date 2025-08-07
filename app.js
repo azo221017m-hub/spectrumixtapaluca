@@ -14,9 +14,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Rutas estáticas
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use('/js', express.static(path.join(__dirname, 'public/js')));
-//app.use('/css', express.static(path.join(__dirname, 'public/css')));
-//app.use('/img', express.static(path.join(__dirname, 'public/img')));
+app.use('/js', express.static(path.join(__dirname, 'public/js')));
+app.use('/css', express.static(path.join(__dirname, 'public/css')));
+app.use('/img', express.static(path.join(__dirname, 'public/img')));
 
 // Conexión a SQLite
 const dbPath = path.join(__dirname, 'database.sqlite');
