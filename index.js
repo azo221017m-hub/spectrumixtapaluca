@@ -1,15 +1,18 @@
-const https = require('https');
-const fs = require('fs');
+const express = require('express');
+const app = express(); // AQUÍ se instancia correctamente Express
+
 const path = require('path');
-const app = require('./app'); // Aquí importas el objeto app directamente
 
+// Tu configuración aquí (middleware, rutas, etc.)
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Ruta base
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Escuchar puerto
 const PORT = process.env.PORT || 3000;
-
-const options = {
-  key: fs.readFileSync(path.join(__dirname, 'certs', 'privkey.key')),
-  cert: fs.readFileSync(path.join(__dirname, 'certs', 'certificado.crt')),
-};
-
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en puerto ${PORT}`);
+  console.log(`Servidor iniciado en puerto ${PORT}`);
 });
