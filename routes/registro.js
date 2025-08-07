@@ -21,6 +21,7 @@ router.post('/', (req, res) => {
     }
 
     console.log('✅ Registro exitoso ID:', this.lastID);
+document.getElementById("formulario-registro").reset();
     res.status(200).json({ mensaje: 'Registro exitoso', id: this.lastID });
   });
 });
