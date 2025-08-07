@@ -10,7 +10,7 @@ document.getElementById('formRegistro').addEventListener('submit', async (e) => 
   };
 
   try {
-    const respuesta = await fetch('/registro', {
+    const respuesta = await fetch('https://spectrumixtapaluca.onrender.com/registro', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(datos),

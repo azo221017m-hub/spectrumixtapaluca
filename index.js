@@ -1,20 +1,17 @@
-// index.js
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
-
-// Importa la aplicación Express ya configurada
-const app = require('./app'); // Asegúrate de que app.js exporta `express()`
+const app = require('./app');
 
 const PORT = process.env.PORT || 3000;
 
 if (process.env.PORT) {
-  // En Render (producción): Render ya maneja HTTPS, no uses certificados
+  // Producción (Render) - sin HTTPS manual
   app.listen(PORT, () => {
-    console.log(`🚀 Servidor corriendo en https://spectrumixtapaluca.onrender.com:${PORT}`);
+    console.log(`🚀 Servidor corriendo en producción (Render)`);
   });
 } else {
-  // En desarrollo local con HTTPS (localhost)
+  // Desarrollo local con HTTPS
   const options = {
     key: fs.readFileSync(path.join(__dirname, 'certs', 'privkey.key')),
     cert: fs.readFileSync(path.join(__dirname, 'certs', 'certificado.crt')),

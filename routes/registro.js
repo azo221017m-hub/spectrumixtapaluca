@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 
-router.post('/', (req, res) => {
+router.post('/registro', (req, res) => {
   const db = req.app.get('db');
   const { nickname, correo, replica, habilidades } = req.body;
 
@@ -19,3 +19,5 @@ router.post('/', (req, res) => {
 });
 
 module.exports = router;
+
+
