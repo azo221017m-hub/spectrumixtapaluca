@@ -19,8 +19,8 @@ app.use('/registro', registroRoutes);
 
 // Configura las opciones con tus certificados
 const options = {
-  key: fs.readFileSync(path.join(__dirname, 'cert', 'privkey.key')),   // Ajusta ruta si es otro nombre o carpeta
-  cert: fs.readFileSync(path.join(__dirname, 'cert', 'certificado.crt'))
+  key: fs.readFileSync(path.join(__dirname, 'certs', 'privkey.key')),   // Ajusta ruta si es otro nombre o carpeta
+  cert: fs.readFileSync(path.join(__dirname, 'certs', 'certificado.crt'))
 };
 
 // Inicia servidor HTTPS
