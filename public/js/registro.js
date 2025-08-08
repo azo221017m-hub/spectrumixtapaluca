@@ -9,7 +9,7 @@ document.getElementById('formRegistro').addEventListener('submit', async (e) => 
   };
 
   try {
-    const response = await fetch('https://localhost:3443/registro', {
+    const response = await fetch('http://localhost:10000/registro', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

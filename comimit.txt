@@ -21,3 +21,13 @@ const PORT = 3443;
 httpsServer.listen(PORT, () => {
   console.log(`Servidor HTTPS escuchando en https://localhost:${PORT}`);
 });
+
+
+
+////////////////////////////// fench local
+
+fetch('http://localhost:10000/registro', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(datos)
+});
