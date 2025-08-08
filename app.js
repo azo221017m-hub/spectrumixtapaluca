@@ -1,3 +1,5 @@
+const https = require('https');
+const fs = require('fs');
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -14,5 +16,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Rutas
 app.use('/registro', registroRoutes);
 
-module.exports = app;
 
+// Configura las opciones con tus certificados
+const options = {
+  key: fs.readFileSync(path.join(__dirname, 'cert', 'privkey.key')),   // Ajusta ruta si es otro nombre o carpeta
+  cert: fs.readFileSync(path.join(__dirname, 'cert', 'certificado.crt'))
+};
+
+// Inicia servidor HTTPS
+https.createServer(options, app).listen(3443, () => {
+  console.log('Servidor HTTPS escuchando en https://localhost:3443');
+});
