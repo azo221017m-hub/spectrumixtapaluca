@@ -1,34 +1,13 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+const express = require('express');
+const router = express.Router();
+const db = require('../db/db'); // Importas la DB aquí para usarla dentro de rutas
 
-const dbPath = path.join(__dirname, 'database.sqlite');
-console.log('Ruta de la base de datos SQLite:', dbPath);
-
-const db = new sqlite3.Database(dbPath, (err) => {
-  if (err) {
-    console.error('❌ Error al conectar con la base de datos:', err.message);
-  } else {
-    console.log('✅ Conectado a la base de datos SQLite.');
-  }
+router.get('/', (req, res) => {
+  res.send('Ruta registro funciona');
 });
 
-// Crear tabla si no existe
-const createTableSql = `
-CREATE TABLE IF NOT EXISTS jugadores (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  nickname TEXT NOT NULL,
-  correo TEXT NOT NULL,
-  replica TEXT,
-  habilidades TEXT
-);`;
-
-db.run(createTableSql, (err) => {
-  if (err) {
-    console.error('❌ Error al crear tabla jugadores:', err.message);
-  } else {
-    console.log('✅ Tabla jugadores lista.');
-  }
+router.post('/', (req, res) => {
+  // lógica de inserción usando db
 });
 
-module.exports = db;
-
+module.exports = router;  // <-- exporta el router, NO la base de datos
