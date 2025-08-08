@@ -26,6 +26,10 @@ document.getElementById('formRegistro').addEventListener('submit', async (e) => 
     const data = await response.json();
     mostrarMensaje(data.mensaje || 'Registro exitoso', false);
     e.target.reset(); // Limpia el formulario
+setTimeout(() => {
+  mostrarMensaje('', false); // O alguna función que borre el mensaje
+}, 3000);
+
 
   } catch (error) {
     mostrarMensaje('Error en la conexión: ' + error.message, true);
