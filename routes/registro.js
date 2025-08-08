@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db/db'); // Ajusta la ruta si está en otra carpeta
 
-router.post('/registro', (req, res) => {
+router.post('/', async (req, res)  => {
   try {
     const { nickname, correo, replica, habilidades } = req.body;
 

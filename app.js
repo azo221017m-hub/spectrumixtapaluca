@@ -12,6 +12,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Rutas
 const registroRoutes = require('./routes/registro');
-app.use('/', registroRoutes);
+app.use('/registro', registroRoutes);
 
 module.exports = app;
