@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario Registro</title>
+</head>
+<body>
+  <h2>Registro</h2>
+  <form id="registroForm">
+    <input type="text" id="nickname" placeholder="Apodo" required><br>
+    <input type="email" id="correo" placeholder="Correo" required><br>
+    <input type="text" id="replica" placeholder="Réplica" required><br>
+    <textarea id="habilidades" placeholder="Habilidades"></textarea><br>
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script>
+    document.getElementById("registroForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const datos = {
+        nickname: document.getElementById("nickname").value,
+        correo: document.getElementById("correo").value,
+        replica: document.getElementById("replica").value,
+        habilidades: document.getElementById("habilidades").value
+      };
+
+      const res = await fetch("/registro", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(datos)
+      });
+
+      const json = await res.json();
+      alert(json.mensaje);
+      e.target.reset(); // Limpia el formulario
+    });
+  </script>
+</body>
+</html>

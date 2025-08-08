@@ -1,13 +1,26 @@
+// app.js
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
-
-const app = express();
-// ⚠️ Define primero dbPath
-const dbPath = path.join(__dirname, 'database.sqlite'); // ajusta la ruta si está en carpeta
+const sqlite3 = require('sqlite3');
+const fs = require('fs');
 const registroRouter = require('./routes/registro');
 
-// ✅ Luego conecta con la base de datos
+const app = express();
+
+// 📂 Ruta segura para crear DB
+const dbPath = path.join(__dirname, 'db', 'database.sqlite');
+if (!fs.existsSync(path.dirname(dbPath))) {
+  fs.mkdirSync(path.dirname(dbPath));
+}
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// 📂 Carpeta pública
+app.use(express.static(path.join(__dirname, 'public')));
+
+// 📦 Conexión a base de datos
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.error('❌ Error al conectar con la base de datos:', err.message);
@@ -16,22 +29,13 @@ const db = new sqlite3.Database(dbPath, (err) => {
   }
 });
 
-// Guarda conexión en la app si lo necesitas
-app.set('db', db);
-
-
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Aquí se monta la ruta para /registro
+// 🔗 Rutas
 app.use('/registro', registroRouter);
 
-// Ruta principal
+// Página principal
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// 📤 Exportar para usar en index.js
 module.exports = app;
