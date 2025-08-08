@@ -27,3 +27,5 @@ const options = {
 https.createServer(options, app).listen(3443, () => {
   console.log('Servidor HTTPS escuchando en https://localhost:3443');
 });
+
+module.exports = app;
