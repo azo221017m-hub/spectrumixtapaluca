@@ -9,6 +9,16 @@ router.get('/', (req, res) => {
 
 });
 
+router.get('/descargar-bd', (req, res) => {
+  const dbPath = path.join(__dirname, '..', 'db', 'database.sqlite');
+  res.download(dbPath, 'database.sqlite', (err) => {
+    if (err) {
+      console.error('Error al descargar base de datos:', err);
+      res.status(500).send('Error al descargar base');
+    }
+  });
+});
+
 
 router.get('/todos', (req, res) => {
   db.all('SELECT * FROM jugadores', (err, rows) => {
