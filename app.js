@@ -23,9 +23,9 @@ const options = {
   cert: fs.readFileSync(path.join(__dirname, 'certs', 'certificado.crt'))
 };
 
-// Inicia servidor HTTPS
-https.createServer(options, app).listen(3443, () => {
-  console.log('Servidor HTTPS escuchando en https://localhost:3443');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor escuchando en puerto ${PORT}`);
 });
 
 module.exports = app;
