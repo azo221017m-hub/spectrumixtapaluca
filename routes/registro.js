@@ -1,7 +1,7 @@
 // routes/registro.js
 const express = require('express');
 const router = express.Router();
-const db = require('../db'); // Ajusta la ruta según donde tengas tu conexión a SQLite
+const db = require('../db/db'); // Ajusta la ruta si está en otra carpeta
 
 router.post('/registro', (req, res) => {
   try {
@@ -29,8 +29,3 @@ router.post('/registro', (req, res) => {
 });
 
 module.exports = router;
-
-
-
-
-

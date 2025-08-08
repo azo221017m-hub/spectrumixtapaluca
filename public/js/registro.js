@@ -1,3 +1,4 @@
+// public/js/registro.js
 document.getElementById('formRegistro').addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -5,25 +6,27 @@ document.getElementById('formRegistro').addEventListener('submit', async (e) => 
     nickname: document.getElementById('nickname').value,
     correo: document.getElementById('correo').value,
     replica: document.getElementById('replica').value,
-    habilidades: document.getElementById('habilidades').value,
+    habilidades: document.getElementById('habilidades').value
   };
 
   try {
-    const respuesta = await fetch('/registro', {
+    const resp = await fetch('/registro', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(datos),
+      body: JSON.stringify(datos)
     });
 
-    if (!respuesta.ok) {
-      const text = await respuesta.text();
-      throw new Error(`Error HTTP ${respuesta.status}: ${text}`);
-    }
+    const resultado = await resp.json();
 
-    const data = await respuesta.json();
-    console.log('Respuesta del servidor:', data);
+    if (!resp.ok) {
+      alert(`❌ Error: ${resultado.error}`);
+    } else {
+      alert(`✅ ${resultado.mensaje}`);
+      document.getElementById('formRegistro').reset();
+    }
 
   } catch (error) {
     console.error('Error en fetch:', error);
+    alert('Error de conexión con el servidor');
   }
 });
