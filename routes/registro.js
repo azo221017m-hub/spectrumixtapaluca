@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path'); 
 const db = require('../db/db'); // tu conexión a la base de datos
 
 
