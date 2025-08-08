@@ -15,11 +15,12 @@ db.all("PRAGMA table_info(jugadores);", (err, rows) => {
 // Ruta GET para testear que funciona
 router.get('/', (req, res) => {
   res.send('Ruta registro funciona');
-console.log('📥 Datos recibidos:', req.body);
+
 });
 
 // Ruta POST para insertar un jugador
 router.post('/', (req, res) => {
+console.log('📥 Datos recibidos:', req.body);  // <-- Aquí el log
   const { nickname, correo, replica, habilidades } = req.body;
   if (!nickname || !correo) {
     return res.status(400).json({ error: 'Faltan datos requeridos' });
