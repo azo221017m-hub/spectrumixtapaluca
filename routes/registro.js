@@ -12,10 +12,13 @@ router.get('/', (req, res) => {
 router.post('/', async (req, res)  => {
   try {
     const { nickname, correo, replica, habilidades } = req.body;
+ console.log('📥 Datos recibidos:', req.body);  // <-- Aquí el log
 
     if (!nickname || !correo) {
       return res.status(400).json({ error: 'Faltan datos requeridos' });
     }
+
+
 
     const sql = `INSERT INTO jugadores (nickname, correo, replica, habilidades)
                  VALUES (?, ?, ?, ?)`;
