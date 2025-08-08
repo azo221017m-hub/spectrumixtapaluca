@@ -1,29 +1,36 @@
 // routes/registro.js
 const express = require('express');
 const router = express.Router();
+const db = require('../db'); // Ajusta la ruta según donde tengas tu conexión a SQLite
 
-router.post('/', (req, res) => {
-  const { nickname, correo, replica, habilidades } = req.body;
-  console.log('📥 Datos recibidos:', req.body);
+router.post('/registro', (req, res) => {
+  try {
+    const { nickname, correo, replica, habilidades } = req.body;
 
-  if (!nickname || !correo || !replica || !habilidades) {
-    console.warn('❗Campos incompletos');
-    return res.status(400).json({ error: 'Faltan campos obligatorios' });
-  }
-
-  const db = req.app.get('db');
-
-  const sql = `INSERT INTO jugadores (nickname, correo, replica, habilidades) VALUES (?, ?, ?, ?)`;
-  db.run(sql, [nickname, correo, replica, habilidades], function (err) {
-    if (err) {
-      console.error('❌ Error al insertar:', err.message);
-      return res.status(500).json({ error: 'Error al registrar jugador' });
+    if (!nickname || !correo) {
+      return res.status(400).json({ error: 'Faltan datos requeridos' });
     }
 
-    console.log('✅ Registro exitoso ID:', this.lastID);
-document.getElementById("formulario-registro").reset();
-    res.status(200).json({ mensaje: 'Registro exitoso', id: this.lastID });
-  });
+    const sql = `INSERT INTO jugadores (nickname, correo, replica, habilidades)
+                 VALUES (?, ?, ?, ?)`;
+
+    db.run(sql, [nickname, correo, replica, habilidades], function(err) {
+      if (err) {
+        console.error('❌ Error al insertar en la base de datos:', err.message);
+        return res.status(500).json({ error: 'Error interno en el servidor' });
+      }
+      res.json({ mensaje: '✅ Registro exitoso', id: this.lastID });
+    });
+
+  } catch (error) {
+    console.error('❌ Error general en /registro:', error);
+    res.status(500).json({ error: 'Error inesperado en el servidor' });
+  }
 });
 
 module.exports = router;
+
+
+
+
+
