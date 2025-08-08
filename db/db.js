@@ -11,6 +11,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
     console.error('❌ Error al conectar con la base de datos:', err.message);
   } else {
     console.log('Ruta de la base de datos SQLite:', dbPath);
+
   }
 });
 

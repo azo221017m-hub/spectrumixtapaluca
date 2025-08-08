@@ -2,12 +2,20 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db/db'); // tu conexión a la base de datos
 
+db.all("PRAGMA table_info(jugadores);", (err, rows) => {
+  if (err) {
+    console.error('Error al obtener info tabla jugadores:', err.message);
+  } else {
+    console.log('Estructura tabla jugadores:', rows);
+  }
+});
 
 
 
 // Ruta GET para testear que funciona
 router.get('/', (req, res) => {
   res.send('Ruta registro funciona');
+console.log('📥 Datos recibidos:', req.body);
 });
 
 // Ruta POST para insertar un jugador
@@ -17,13 +25,6 @@ router.post('/', (req, res) => {
     return res.status(400).json({ error: 'Faltan datos requeridos' });
   }
 
-db.all("PRAGMA table_info(jugadores);", (err, rows) => {
-  if (err) {
-    console.error('Error al obtener info tabla jugadores:', err.message);
-  } else {
-    console.log('Estructura tabla jugadores:', rows);
-  }
-});
 
 
   const sql = `INSERT INTO jugadores (nickname, correo, replica, habilidades) VALUES (?, ?, ?, ?)`;
