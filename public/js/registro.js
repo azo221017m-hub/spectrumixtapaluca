@@ -9,24 +9,19 @@ document.getElementById('formRegistro').addEventListener('submit', async (e) => 
     habilidades: document.getElementById('habilidades').value
   };
 
-  try {
-    const resp = await fetch('/registro', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(datos)
-    });
 
-    const resultado = await resp.json();
-
-    if (!resp.ok) {
-      alert(`❌ Error: ${resultado.error}`);
-    } else {
-      alert(`✅ ${resultado.mensaje}`);
-      document.getElementById('formRegistro').reset();
-    }
-
-  } catch (error) {
-    console.error('Error en fetch:', error);
-    alert('Error de conexión con el servidor');
-  }
-});
+  fetch('/registro', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    nickname: 'usuario1',
+    correo: 'correo@ejemplo.com',
+    replica: 'm4',
+    habilidades: 'CQB'
+  })
+})
+.then(res => res.json())
+.then(data => console.log(data))
+.catch(err => console.error(err));
