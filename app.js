@@ -4,6 +4,13 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
+
+const cors = require('cors');
+
+// Habilita CORS para todas las rutas
+app.use(cors());
+
+
 const registroRoutes = require('./routes/registro'); // Importa el router
 
 // Middlewares para leer JSON y formularios
@@ -27,5 +34,8 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en puerto ${PORT}`);
 });
+
+
+
 
 module.exports = app;

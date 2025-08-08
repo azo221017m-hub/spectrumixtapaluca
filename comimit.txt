@@ -1,3 +1,23 @@
 git add .
 git commit -m "Subida forzada desde local"
 git push origin main --force
+
+
+
+
+
+///////LOCAL CON HTTPS APP
+
+const https = require('https');
+const fs = require('fs');
+const options = {
+  key: fs.readFileSync(path.join(__dirname, 'certs', 'privkey.key')),
+  cert: fs.readFileSync(path.join(__dirname, 'certs', 'certificado.crt'))
+};
+
+const httpsServer = https.createServer(options, app);
+
+const PORT = 3443;
+httpsServer.listen(PORT, () => {
+  console.log(`Servidor HTTPS escuchando en https://localhost:${PORT}`);
+});
