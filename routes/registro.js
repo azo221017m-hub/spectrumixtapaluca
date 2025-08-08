@@ -1,40 +1,34 @@
-// routes/registro.js
-const express = require('express');
-const router = express.Router();
-const db = require('../db/db'); // Ajusta la ruta si está en otra carpeta
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 
-// En routes/registro.js
-router.get('/', (req, res) => {
-  res.send('Ruta registro funciona, usa POST para enviar datos.');
-});
+const dbPath = path.join(__dirname, 'database.sqlite');
+console.log('Ruta de la base de datos SQLite:', dbPath);
 
-
-router.post('/', async (req, res)  => {
-  try {
-    const { nickname, correo, replica, habilidades } = req.body;
- console.log('📥 Datos recibidos:', req.body);  // <-- Aquí el log
-
-    if (!nickname || !correo) {
-      return res.status(400).json({ error: 'Faltan datos requeridos' });
-    }
-
-
-
-    const sql = `INSERT INTO jugadores (nickname, correo, replica, habilidades)
-                 VALUES (?, ?, ?, ?)`;
-
-    db.run(sql, [nickname, correo, replica, habilidades], function(err) {
-      if (err) {
-        console.error('❌ Error al insertar en la base de datos:', err.message);
-        return res.status(500).json({ error: 'Error interno en el servidor' });
-      }
-      res.json({ mensaje: '✅ Registro exitoso', id: this.lastID });
-    });
-
-  } catch (error) {
-    console.error('❌ Error general en /registro:', error);
-    res.status(500).json({ error: 'Error inesperado en el servidor' });
+const db = new sqlite3.Database(dbPath, (err) => {
+  if (err) {
+    console.error('❌ Error al conectar con la base de datos:', err.message);
+  } else {
+    console.log('✅ Conectado a la base de datos SQLite.');
   }
 });
 
-module.exports = router;
+// Crear tabla si no existe
+const createTableSql = `
+CREATE TABLE IF NOT EXISTS jugadores (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  nickname TEXT NOT NULL,
+  correo TEXT NOT NULL,
+  replica TEXT,
+  habilidades TEXT
+);`;
+
+db.run(createTableSql, (err) => {
+  if (err) {
+    console.error('❌ Error al crear tabla jugadores:', err.message);
+  } else {
+    console.log('✅ Tabla jugadores lista.');
+  }
+});
+
+module.exports = db;
+
