@@ -9,6 +9,17 @@ router.get('/', (req, res) => {
 
 });
 
+
+router.get('/todos', (req, res) => {
+  db.all('SELECT * FROM jugadores', (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: 'Error al leer la base' });
+    }
+    res.json(rows);
+  });
+});
+
+
 // Ruta POST para insertar un jugador
 router.post('/', (req, res) => {
 console.log('📥 Datos recibidos:', req.body);  // <-- Aquí el log
